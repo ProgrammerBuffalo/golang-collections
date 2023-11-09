@@ -17,15 +17,18 @@ type Node struct {
 func (hashMap *HashMap) put(key string, value int) {
 	index := hashMap.getBucketIndex(key)
 
+	// get specific bucket
 	node := hashMap.buckets[index]
 
 	if node == nil {
+		// create first node of bucket
 		hashMap.buckets[index] = &Node{key: key, value: value}
 		return
 	}
 
 	for ; ; node = node.next {
 		if node.key == key {
+			// rewrite value of node
 			node.value = value
 			return
 		}
@@ -34,6 +37,7 @@ func (hashMap *HashMap) put(key string, value int) {
 		}
 	}
 
+	// add next node of existing node
 	node.next = &Node{key: key, value: value}
 }
 
@@ -64,6 +68,7 @@ func (hashMap *HashMap) printAll() {
 }
 
 func construct(bucketsLen int) *HashMap {
+	// initialize buckets of hash map
 	return &HashMap{buckets: make([]*Node, bucketsLen)}
 }
 
